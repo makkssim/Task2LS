@@ -21,22 +21,18 @@ public class CommandLineArgument {
     @Option(name = "-o", usage = "output to file")
     private boolean o = true;
 
-    @Argument(usage = "output file name",index = 1)
-    private String outputName;
-
     @Argument(metaVar = "Name", usage = "name of File/Directory", index = 0, required = true)
     private String name;
 
+    @Argument(usage = "output file name", index = 1)
+    private String outputName;
+
     public static void main(String[] args) {
-        try {
-            new CommandLineArgument().launch(args);
-        } catch (FileNotFoundException e) {
-            System.err.println(e.getMessage());
-            System.err.println("There are no files or directories with this path/name");
-        }
+
+        new CommandLineArgument().launch(args);
     }
 
-    private void launch(String[] args) throws FileNotFoundException {
+    private void launch(String[] args) {
         CmdLineParser parser = new CmdLineParser(this);
 
         try {
@@ -49,16 +45,14 @@ public class CommandLineArgument {
         }
         try {
             Code code = new Code();
-            code.main(name,l,r,h,o,outputName);
-        }
-        catch (NullPointerException e){
+            code.main(name, l, r, h, o, outputName);
+        } catch (NullPointerException e) {
             System.err.println(e.getMessage());
-            System.err.println("No rights to access the specified file or directory");
+            System.err.println("This file/directory does not exist or cannot be accessed");
         }
 
 
     }
-
 
 
 }
