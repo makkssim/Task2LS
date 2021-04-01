@@ -13,16 +13,14 @@ public class FileProp {
     private Integer rights;
     private Double size;
 
-    public static FileProp fileToFileProp(File i) {
-        FileProp f = new FileProp();
-        f.name = i.getName();
-        f.size = (double) i.length();
-        f.rights = 0;
-        if (i.canExecute()) f.rights++;
-        if (i.canWrite()) f.rights += 10;
-        if (i.canRead()) f.rights += 100;
-        f.lastMod = new Date(i.lastModified());
-        return f;
+    public FileProp(File i) {
+        this.name = i.getName();
+        this.size = (double) i.length();
+        this.rights = 0;
+        if (i.canExecute()) this.rights++;
+        if (i.canWrite()) this.rights += 10;
+        if (i.canRead()) this.rights += 100;
+        this.lastMod = new Date(i.lastModified());
     }
 
     public String toString(List<FileProp> files, boolean h) {
@@ -32,7 +30,7 @@ public class FileProp {
         for (FileProp i : files) {
             if (i.name.length() > ln) ln = i.name.length();
         }
-        sb.append("Name" + (" ").repeat(ln) + "Last modified       " + "Rights " + "Size\n");
+        sb.append("Name" + " " + "Last modified       " + "Rights " + "Size\n");
         for (FileProp i : files) {
             String rig = "";
             Double siz = size;
@@ -50,7 +48,7 @@ public class FileProp {
                 } else rig += "-";
                 if (rights == 1) rig += "x";
                 else rig += "-";
-                while (siz >= 1024) {
+                while (siz >= 1024 && x<=5) {
                     siz = siz / 1024;
                     x++;
                 }

@@ -14,10 +14,10 @@ public class Code {
         File dir = new File(name);
         ArrayList<FileProp> files = new ArrayList<FileProp>();
         if (dir.isFile()) {
-            files.add(FileProp.fileToFileProp(dir));
+            files.add(new FileProp(dir));
             l = true;
         } else if (l) for (File i : dir.listFiles()) {
-            files.add(FileProp.fileToFileProp(i));
+            files.add(new FileProp(i));
         }
         if (!r) Collections.sort(files, Comparator.comparing(FileProp::getName));
         else
@@ -28,7 +28,7 @@ public class Code {
             for (File i : dir.listFiles()) sb.append(i.getName() + "\n");
             finalOutput = sb.toString();
         } else {
-            FileProp a = new FileProp();
+            FileProp a = new FileProp(dir);
             finalOutput = a.toString(files, h);
         }
         if (!o) System.out.println(finalOutput);
