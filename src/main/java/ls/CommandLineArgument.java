@@ -5,21 +5,19 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
-import java.io.FileNotFoundException;
-
 public class CommandLineArgument {
 
     @Option(name = "-l", usage = "switches output to long format")
-    private boolean l = true;
+    private boolean l;
 
     @Option(name = "-h", usage = "switches output to human readable format")
-    private boolean h = true;
+    private boolean h;
 
     @Option(name = "-r", usage = "reverses the order of output")
-    private boolean r = true;
+    private boolean r;
 
     @Option(name = "-o", usage = "output to file")
-    private boolean o = true;
+    private boolean o;
 
     @Argument(metaVar = "Name", usage = "name of File/Directory", index = 0, required = true)
     private String name;
@@ -43,13 +41,10 @@ public class CommandLineArgument {
             parser.printUsage(System.err);
             return;
         }
-        try {
             Code code = new Code();
             code.main(name, l, r, h, o, outputName);
-        } catch (NullPointerException e) {
-            System.err.println(e.getMessage());
-            System.err.println("This file/directory does not exist or cannot be accessed");
-        }
+
+
 
 
     }
