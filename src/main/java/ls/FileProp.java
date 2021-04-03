@@ -3,7 +3,6 @@ package ls;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -62,24 +61,12 @@ public class FileProp {
                 }
             }
             List<String> s = Arrays.asList("B", "KB", "MB", "GB", "TB", "PB");
-            sb.append(i.name + " ".repeat(ln-i.name.length() + 4) + sdf.format(i.lastMod) + "    " + rig + "       " + String.format("%.2f", siz) + s.get(x) + System.lineSeparator());
+            sb.append(i.name + " ".repeat(ln - i.name.length() + 4) + sdf.format(i.lastMod) + "    " + rig + "       " + String.format("%.2f", siz) + s.get(x) + System.lineSeparator());
         }
         return sb.toString();
     }
 
     public String getName() {
         return this.name;
-    }
-
-    public Date getLastMod() {
-        return this.lastMod;
-    }
-
-    public Double getSize() {
-        return this.size;
-    }
-
-    public String getRights() {
-        return name;
     }
 }

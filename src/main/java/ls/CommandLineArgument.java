@@ -19,7 +19,7 @@ public class CommandLineArgument {
     @Option(name = "-o", usage = "output to file")
     private boolean o;
 
-    @Argument(metaVar = "Name", usage = "name of File/Directory", index = 0, required = true)
+    @Argument(metaVar = "Name", usage = "name of File/Directory", required = true)
     private String name;
 
     @Argument(usage = "output file name", index = 1)
@@ -41,10 +41,8 @@ public class CommandLineArgument {
             parser.printUsage(System.err);
             return;
         }
-            Code code = new Code();
-            code.main(name, l, r, h, o, outputName);
-
-
+        Code code = new Code();
+        code.main(name, l, r, h, o, outputName);
 
 
     }

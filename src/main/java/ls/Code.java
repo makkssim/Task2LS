@@ -3,14 +3,16 @@ package ls;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class Code {
     public static void main(String name, boolean l, boolean r, boolean h, boolean o, String output) {
         File dir = new File(name);
-        ArrayList<FileProp> files = new ArrayList<FileProp>();
+        ArrayList<FileProp> files = new ArrayList<>();
         if (dir.isFile()) {
             files.add(new FileProp(dir));
             l = true;
@@ -23,7 +25,9 @@ public class Code {
         String finalOutput;
         if (!l) {
             StringBuilder sb = new StringBuilder("");
-            for (File i : dir.listFiles()) sb.append(i.getName() + System.lineSeparator());
+            File[] f = dir.listFiles();
+            if (r) Collections.reverse(Arrays.asList(f));
+            for (File i : f) sb.append(i.getName() + System.lineSeparator());
             finalOutput = sb.toString();
         } else {
             FileProp a = new FileProp(dir);
