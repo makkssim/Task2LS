@@ -10,7 +10,9 @@ import java.util.*;
 public class FileProp {
     private String name;
     private Date lastMod;
-    private List<Boolean> rights = new ArrayList();
+    private Map rights = new HashMap();
+
+
     private Double size;
 
     public FileProp(File i) {
@@ -18,14 +20,13 @@ public class FileProp {
         if (i.isFile()) this.size = (double) i.length();
         else this.size = (double) FileUtils.sizeOfDirectory(i);
         boolean j = i.canExecute();
-        this.rights.add(true);
-        this.rights.add(0, i.canExecute());
-        this.rights.add(1, i.canWrite());
-        this.rights.add(2, i.canRead());
+        this.rights.put("execute", i.canExecute());
+        this.rights.put("write", i.canWrite());
+        this.rights.put("read", i.canRead());
         this.lastMod = new Date(i.lastModified());
     }
 
-    public String toString(List<FileProp> files, boolean h) {
+    public static String textTable(List<FileProp> files, boolean h) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         StringBuilder sb = new StringBuilder("");
         Integer ln = 0;
@@ -38,22 +39,22 @@ public class FileProp {
             Double siz = i.size;
             Integer x = 0;
             if (!h) {
-                if (i.rights.get(0))
+                if ((boolean) i.rights.get("execute"))
                     rig += "1";
                 else rig += "0";
-                if (i.rights.get(1))
+                if ((boolean) i.rights.get("write"))
                     rig += "1";
                 else rig += "0";
-                if (i.rights.get(2)) rig += "1";
+                if ((boolean) i.rights.get("read")) rig += "1";
                 else rig += "0";
             } else {
-                if (i.rights.get(0))
+                if ((boolean) i.rights.get("execute"))
                     rig += "r";
                 else rig += "-";
-                if (i.rights.get(1))
+                if ((boolean) i.rights.get("write"))
                     rig += "w";
                 else rig += "-";
-                if (i.rights.get(2)) rig += "x";
+                if ((boolean) i.rights.get("read")) rig += "x";
                 else rig += "-";
                 while (siz >= 1024 && x <= 5) {
                     siz = siz / 1024;

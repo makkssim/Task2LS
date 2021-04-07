@@ -10,20 +10,18 @@ public class CommandLineArgument {
     @Option(name = "-l", usage = "switches output to long format")
     private boolean l;
 
-    @Option(name = "-h", usage = "switches output to human readable format")
+    @Option(name = "-h", usage = "switches output to human readable format", depends = {"-l"})
     private boolean h;
 
     @Option(name = "-r", usage = "reverses the order of output")
     private boolean r;
 
     @Option(name = "-o", usage = "output to file")
-    private boolean o;
+    private String outputName;
+
 
     @Argument(metaVar = "Name", usage = "name of File/Directory", required = true)
     private String name;
-
-    @Argument(usage = "output file name", index = 1)
-    private String outputName;
 
     public static void main(String[] args) {
 
@@ -42,7 +40,7 @@ public class CommandLineArgument {
             return;
         }
         Code code = new Code();
-        code.main(name, l, r, h, o, outputName);
+        code.main(name, l, r, h, outputName);
 
 
     }

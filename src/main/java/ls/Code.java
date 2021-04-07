@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Code {
-    public static void main(String name, boolean l, boolean r, boolean h, boolean o, String output) {
+    public static void main(String name, boolean l, boolean r, boolean h, String output) {
         File dir = new File(name);
         ArrayList<FileProp> files = new ArrayList<>();
         if (dir.isFile()) {
@@ -26,21 +26,21 @@ public class Code {
         if (!l) {
             StringBuilder sb = new StringBuilder("");
             File[] f = dir.listFiles();
-            if (r) Collections.reverse(Arrays.asList(f));
+            if (r) Collections.sort(Arrays.asList(f), Comparator.comparing(File::getName).reversed());
+            else Collections.sort(Arrays.asList(f), Comparator.comparing(File::getName));
             for (File i : f) sb.append(i.getName() + System.lineSeparator());
             finalOutput = sb.toString();
-        } else {
-            FileProp a = new FileProp(dir);
-            finalOutput = a.toString(files, h);
-        }
-        if (!o) System.out.println(finalOutput);
+        } else finalOutput = FileProp.textTable(files,h);
+
+        if (output == null) System.out.println(finalOutput);
         else {
-            File outputfile = new File(output);
+            File outputFile = new File(output);
             try {
-                FileWriter writer = new FileWriter(outputfile);
-                writer.write(finalOutput);
-                writer.flush();
-                writer.close();
+                try (
+                FileWriter writer = new FileWriter(outputFile);){
+                writer.write(finalOutput);}
+               // writer.flush();
+                //writer.close();
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
