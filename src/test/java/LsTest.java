@@ -31,24 +31,24 @@ public class LsTest {
 
 
     @Test
-    public void ls() throws URISyntaxException, IOException {
+    public void ls() throws  IOException {
         ArrayList<FileProp> files = new ArrayList<>();
-        File resource = new File(CommandLineArgument.class.getResource("/res1").toURI());
-        for (int i = 0; i < 1; i++) {
-            File.createTempFile("temp", ".tmp", new File(resource.getParent()));
+        File resource = new File(".\\target\\test-classes");
+        for (int i = 0; i < 10; i++) {
+            File.createTempFile("temp", ".tmp",resource);
         }
-        File r1 = new File(resource.getParent(), "r1");
-        File r2 = new File(resource.getParent(), "r2");
-        String res = "";
-        File g = new File(resource.getParent());
-        for (File i : g.listFiles()) {
+        File r1 = new File(resource, "r1");
+        File r2 = new File(resource, "r2");
+        StringBuilder res = new StringBuilder();
+
+        for (File i : resource.listFiles()) {
             files.add(new FileProp(i));
-            res += i.getName() + System.lineSeparator();
+            res.append(i.getName()).append(System.lineSeparator());
         }
-        assertEquals((FileProp.textTable(files, true)).trim(), main(new String[]{resource.getParent(), "-l", "-h"}).trim());
-        assertEquals(res.trim(), main(new String[]{resource.getParent()}).trim());
-        CommandLineArgument.main(new String[]{resource.getParent(), "-l", "-h", "-o", r2.getAbsolutePath()});
-        try (FileWriter writer = new FileWriter(r1);) {
+        assertEquals((FileProp.textTable(files, true)).trim(), main(new String[]{resource.getAbsolutePath(), "-l", "-h"}).trim());
+        assertEquals(res.toString().trim(), main(new String[]{resource.getAbsolutePath()}).trim());
+        CommandLineArgument.main(new String[]{resource.getAbsolutePath(), "-l", "-h", "-o", r2.getAbsolutePath()});
+        try (FileWriter writer = new FileWriter(r1)) {
             writer.write(FileProp.textTable(files, true));
         }
         assertTrue(FileUtils.contentEquals(r1, r2));
