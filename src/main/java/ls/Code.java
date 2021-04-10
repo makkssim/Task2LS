@@ -38,8 +38,6 @@ public class Code {
                 try (
                 FileWriter writer = new FileWriter(output);){
                 writer.write(finalOutput);}
-               // writer.flush();
-                //writer.close();
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }

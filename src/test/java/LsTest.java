@@ -2,15 +2,17 @@
 import ls.CommandLineArgument;
 import ls.FileProp;
 import org.apache.commons.io.FileUtils;
+import org.kohsuke.args4j.CmdLineException;
 import org.testng.annotations.Test;
 
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileAttribute;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LsTest {
 
@@ -47,14 +49,29 @@ public class LsTest {
             res.append(i.getName()).append(System.lineSeparator());
         }
         assertEquals((FileProp.textTable(files, true)).trim(), main(new String[]{resource.getAbsolutePath(), "-l", "-h"}).trim());
+
         assertEquals((FileProp.textTable(files, false)).trim(), main(new String[]{resource.getAbsolutePath(), "-l"}).trim());
 
         assertEquals(res.toString().trim(), main(new String[]{resource.getAbsolutePath()}).trim());
+
+        ArrayList<FileProp> file = new ArrayList<FileProp>();
+        file.add(new FileProp(new File(resource.getAbsolutePath()+"/testFile")));
+        assertEquals(FileProp.textTable(file,false).trim(), main(new String[]{resource.getAbsolutePath()+"/testFile"}).trim());
+
+        assertEquals (  ("\"-k\" is not a valid option" + System.lineSeparator() +
+                "java -jar ls.jar -l -h -r -o outputName" +  System.lineSeparator() +
+                " Name    : name of File/Directory" + System.lineSeparator() +
+                " -h      : switches output to human readable format (default: false)" +System.lineSeparator()+
+                " -l      : switches output to long format (default: false)" +System.lineSeparator()+
+                " -o FILE : output to file" +System.lineSeparator()+
+                " -r      : reverses the order of output (default: false)").trim(), main(new String[]{resource.getAbsolutePath(),"-k"}).trim());
+
         CommandLineArgument.main(new String[]{resource.getAbsolutePath(), "-l", "-h", "-o", r2.getAbsolutePath()});
         try (FileWriter writer = new FileWriter(r1)) {
             writer.write(FileProp.textTable(files, true));
         }
         assertTrue(FileUtils.contentEquals(r1, r2));
+
 
 
     }
