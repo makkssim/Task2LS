@@ -5,6 +5,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import java.io.File;
+
 public class CommandLineArgument {
 
     @Option(name = "-l", usage = "switches output to long format")
@@ -17,7 +19,7 @@ public class CommandLineArgument {
     private boolean r;
 
     @Option(name = "-o", usage = "output to file")
-    private String outputName;
+    private File outputName;
 
 
     @Argument(metaVar = "Name", usage = "name of File/Directory", required = true)

@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Code {
-    public static void main(String name, boolean l, boolean r, boolean h, String output) {
+    public static void main(String name, boolean l, boolean r, boolean h, File output) {
         File dir = new File(name);
         ArrayList<FileProp> files = new ArrayList<>();
         if (dir.isFile()) {
@@ -34,10 +34,9 @@ public class Code {
 
         if (output == null) System.out.println(finalOutput);
         else {
-            File outputFile = new File(output);
             try {
                 try (
-                FileWriter writer = new FileWriter(outputFile);){
+                FileWriter writer = new FileWriter(output);){
                 writer.write(finalOutput);}
                // writer.flush();
                 //writer.close();

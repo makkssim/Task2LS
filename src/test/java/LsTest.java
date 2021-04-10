@@ -2,7 +2,7 @@
 import ls.CommandLineArgument;
 import ls.FileProp;
 import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -31,10 +31,11 @@ public class LsTest {
 
 
     @Test
-    public void ls() throws  IOException {
+    public void ls() throws IOException, URISyntaxException {
         ArrayList<FileProp> files = new ArrayList<>();
-        File resource = new File(".\\target\\test-classes");
-        for (int i = 0; i < 10; i++) {
+        URL url = CommandLineArgument.class.getResource("/");
+        File resource =new File(url.toURI());
+        for (int i = 0; i < 1; i++) {
             File.createTempFile("temp", ".tmp",resource);
         }
         File r1 = new File(resource, "r1");
@@ -46,6 +47,8 @@ public class LsTest {
             res.append(i.getName()).append(System.lineSeparator());
         }
         assertEquals((FileProp.textTable(files, true)).trim(), main(new String[]{resource.getAbsolutePath(), "-l", "-h"}).trim());
+        assertEquals((FileProp.textTable(files, false)).trim(), main(new String[]{resource.getAbsolutePath(), "-l"}).trim());
+
         assertEquals(res.toString().trim(), main(new String[]{resource.getAbsolutePath()}).trim());
         CommandLineArgument.main(new String[]{resource.getAbsolutePath(), "-l", "-h", "-o", r2.getAbsolutePath()});
         try (FileWriter writer = new FileWriter(r1)) {
