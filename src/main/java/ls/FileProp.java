@@ -10,7 +10,7 @@ import java.util.*;
 public class FileProp {
     private String name;
     private Date lastMod;
-    private Map rights = new HashMap();
+    private HashMap<String, Boolean> rights = new HashMap<String, Boolean>();
 
 
     private Double size;
@@ -39,22 +39,22 @@ public class FileProp {
             Double siz = i.size;
             Integer x = 0;
             if (!h) {
-                if ((boolean) i.rights.get("execute"))
+                if ( i.rights.get("execute"))
                     rig += "1";
                 else rig += "0";
-                if ((boolean) i.rights.get("write"))
+                if ( i.rights.get("write"))
                     rig += "1";
                 else rig += "0";
-                if ((boolean) i.rights.get("read")) rig += "1";
+                if (i.rights.get("read").equals(true)) rig += "1";
                 else rig += "0";
             } else {
-                if ((boolean) i.rights.get("execute"))
+                if ( i.rights.get("execute"))///////////////
                     rig += "r";
                 else rig += "-";
-                if ((boolean) i.rights.get("write"))
+                if ( i.rights.get("write"))
                     rig += "w";
                 else rig += "-";
-                if ((boolean) i.rights.get("read")) rig += "x";
+                if ( i.rights.get("read")) rig += "x";
                 else rig += "-";
                 while (siz >= 1024 && x <= 5) {
                     siz = siz / 1024;

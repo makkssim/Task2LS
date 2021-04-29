@@ -34,11 +34,11 @@ public class Code {
 
         if (output == null) System.out.println(finalOutput);
         else {
-            try {
+
                 try (
                 FileWriter writer = new FileWriter(output);){
                 writer.write(finalOutput);}
-            } catch (IOException e) {
+             catch (IOException e) {
                 System.err.println(e.getMessage());
             }
         }

@@ -11,6 +11,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileAttribute;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,6 +50,7 @@ public class LsTest {
             files.add(new FileProp(i));
             res.append(i.getName()).append(System.lineSeparator());
         }
+        Collections.sort(files, Comparator.comparing(FileProp::getName));
         assertEquals((FileProp.textTable(files, true)).trim(), main(new String[]{resource.getAbsolutePath(), "-l", "-h"}).trim());
 
         assertEquals((FileProp.textTable(files, false)).trim(), main(new String[]{resource.getAbsolutePath(), "-l"}).trim());
@@ -55,6 +58,7 @@ public class LsTest {
         assertEquals(res.toString().trim(), main(new String[]{resource.getAbsolutePath()}).trim());
 
         ArrayList<FileProp> file = new ArrayList<FileProp>();
+        File r3 = new File(resource, "testFile");
         file.add(new FileProp(new File(resource.getAbsolutePath()+"/testFile")));
         assertEquals(FileProp.textTable(file,false).trim(), main(new String[]{resource.getAbsolutePath()+"/testFile"}).trim());
 
